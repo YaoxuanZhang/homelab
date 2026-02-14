@@ -1,10 +1,8 @@
-.PHONY: up down restart pull logs config ps
+.PHONY: up down restart pull logs config ps setup
 
-# Default target
-all: up
+all: setup up
 
 up:
-	@docker network inspect gateway_nw >/dev/null 2>&1 || docker network create gateway_nw
 	docker compose up -d
 
 down:
@@ -27,3 +25,8 @@ config:
 
 ps:
 	docker compose ps
+
+setup-cloudflare:
+	powershell -ExecutionPolicy Bypass -File ./hub/cloudflared/setup-cloudflare.ps1
+
+setup: setup-cloudflare

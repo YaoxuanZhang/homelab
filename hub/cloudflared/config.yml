@@ -1,7 +1,0 @@
-# homelab/hub/cloudflared/config.yml
-ingress:
-  - hostname: "*.jianling.org"
-    service: https://traefik:443
-    originRequest:
-      noTLSVerify: true
-  - service: http_status:404
