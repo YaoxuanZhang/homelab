@@ -1,0 +1,18 @@
+# homelab/docker-compose.yml
+name: homelab-infrastructure
+
+include:
+  # Hub Services (Core)
+  - path: hub/authentik/docker-compose.yml
+  - path: hub/cloudflared/docker-compose.yml
+  - path: hub/traefik/docker-compose.yml
+  # Spoke Services (Applications)
+  # - path: spokes/calcom/docker-compose.yml
+  # - path: spokes/nextcloud/docker-compose.yml
+  # - path: spokes/paperless/docker-compose.yml
+  # - path: spokes/uptime-kuma/docker-compose.yml
+  # - path: spokes/watchtower/docker-compose.yml
+
+networks:
+  gateway_nw:
+    external: true

@@ -1,0 +1,17 @@
+# homelab/hub/cloudflared/docker-compose.yml
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    volumes:
+      - ./config.yml:/etc/cloudflared/config.yml
+    networks:
+      - gateway_nw
+
+networks:
+  gateway_nw:
+    external: true
