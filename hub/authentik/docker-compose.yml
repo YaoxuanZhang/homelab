@@ -16,7 +16,7 @@ services:
     container_name: authentik-postgresql
     restart: unless-stopped
     volumes:
-    - database:/var/lib/postgresql/data
+    - ./data/database:/var/lib/postgresql/data
   server:
     command: server
     depends_on:
@@ -41,16 +41,16 @@ services:
     container_name: authentik-server
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.authentik.rule=Host(`auth.jianling.org`)"
-      - "traefik.http.routers.authentik.entrypoints=websecure"
-      - "traefik.http.routers.authentik.tls=true"
-      - "traefik.http.routers.authentik.tls.certresolver=cloudflare"
-      - "traefik.http.routers.authentik.service=authentik"
-      - "traefik.http.services.authentik.loadbalancer.server.port=9000"
+      - traefik.enable=true
+      - traefik.http.routers.authentik.rule=Host(`auth.jianling.org`)
+      - traefik.http.routers.authentik.entrypoints=websecure
+      - traefik.http.routers.authentik.tls=true
+      - traefik.http.routers.authentik.tls.certresolver=cloudflare
+      - traefik.http.routers.authentik.service=authentik
+      - traefik.http.services.authentik.loadbalancer.server.port=9000
     volumes:
-    - ./data:/data
-    - ./custom-templates:/templates
+    - ./data/data:/data
+    - ./data/custom-templates:/templates
   worker:
     command: worker
     depends_on:
@@ -77,9 +77,6 @@ services:
     user: root
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ./data:/data
-    - ./certs:/certs
-    - ./custom-templates:/templates
-volumes:
-  database:
-    driver: local
+    - ./data/data:/data
+    - ./data/certs:/certs
+    - ./data/custom-templates:/templates

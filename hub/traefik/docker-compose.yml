@@ -7,9 +7,10 @@ services:
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     ports:
-      - "443:443"
-      - "8080:8080"
+      - 443:443
+      - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - ./data/certs/:/var/traefik/certs/:rw
+      - ./config/certs/:/var/traefik/certs/:rw
+      - ./config/conf/:/etc/traefik/conf/:ro
