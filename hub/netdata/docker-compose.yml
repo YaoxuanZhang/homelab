@@ -30,6 +30,8 @@ services:
       - traefik.http.routers.netdata.tls=true
       - traefik.http.routers.netdata.tls.certresolver=cloudflare
       - traefik.http.routers.netdata.middlewares=authentik@file
+      - kuma.netdata.http.name=Netdata
+      - kuma.netdata.http.url=https://netdata.${DOMAIN_NAME}
     networks:
       - traefik-frontend
 
@@ -37,6 +39,7 @@ volumes:
   netdataconfig:
   netdatalib:
   netdatacache:
+
 
 networks:
   traefik-frontend:
