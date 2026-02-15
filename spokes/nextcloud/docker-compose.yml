@@ -37,6 +37,9 @@ services:
       # WATCHTOWER_DOCKER_SOCKET_PATH: /var/run/docker.sock # Needs to be specified if the docker socket on the host is not located in the default '/var/run/docker.sock'. Otherwise mastercontainer updates will fail. For macos it needs to be '/var/run/docker.sock'
     networks:
       - traefik_frontend
+    labels:
+      - kuma.nextcloud.http.name=Nextcloud
+      - kuma.nextcloud.http.url=https://nextcloud.${DOMAIN_NAME}
 
 volumes: # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive
   nextcloud_aio_mastercontainer:
