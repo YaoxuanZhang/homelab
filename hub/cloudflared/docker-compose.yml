@@ -8,9 +8,4 @@ services:
     volumes:
       - ./config/cloudflared.yml:/etc/cloudflared/config.yml:ro
       - ./config/credentials.json:/etc/cloudflared/credentials.json:ro
-    networks:
-      - frontend
-
-networks:
-  frontend:
-    external: true
+  

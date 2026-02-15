@@ -51,9 +51,6 @@ services:
     volumes:
     - ./data:/data
     - ./custom-templates:/templates
-    networks:
-      - backend
-      - frontend
   worker:
     command: worker
     depends_on:
@@ -83,13 +80,6 @@ services:
     - ./data:/data
     - ./certs:/certs
     - ./custom-templates:/templates
-    networks:
-      - backend
 volumes:
   database:
     driver: local
-networks:
-  frontend: 
-    external: true
-  backend:
-    external: true

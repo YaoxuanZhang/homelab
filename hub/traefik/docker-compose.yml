@@ -13,8 +13,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./data/certs/:/var/traefik/certs/:rw
-    networks:
-      - frontend
-networks:
-  frontend:
-    external: true
