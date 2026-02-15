@@ -13,3 +13,8 @@ services:
       - traefik.http.routers.whoami.middlewares=authentik@file
       - kuma.whoami.http.name=Whoami
       - kuma.whoami.http.url=https://whoami.${DOMAIN_NAME}
+    networks:
+      - traefik_frontend
+networks:
+  traefik_frontend:
+    external: true

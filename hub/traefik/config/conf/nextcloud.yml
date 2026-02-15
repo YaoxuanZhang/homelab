@@ -1,0 +1,28 @@
+http:
+  routers:
+    nextcloud:
+      rule: "Host(`cloud.jianling.org`)"
+      service: nextcloud-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+
+  services:
+    nextcloud-service:
+      loadBalancer:
+        servers:
+          # Use the container name or the host IP if not on the same network
+          - url: "http://nextcloud-aio-apache:11000"
+
+  middlewares:
+    nextcloud-headers:
+      headers:
+        stsSeconds: 15552000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        forceSTSHeader: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        customFrameOptionsValue: "SAMEORIGIN"
+        referrerPolicy: "same-origin"

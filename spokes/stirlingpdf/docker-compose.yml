@@ -7,9 +7,9 @@ services:
     container_name: stirling-pdf
     # Configure the container to restart unless explicitly stopped
     restart: unless-stopped
-    # Map host port 8080 to container port 8080 for web access
+    # Map host port 8100 to container port 8100 for web access
     ports:
-      - "8080:8080"
+      - "8100:8100"
     # Define persistent storage volumes for data and configurations
     volumes:
       # Mount local directory for OCR language data (Tesseract)
@@ -25,7 +25,7 @@ services:
     # Configure healthcheck to verify container is running correctly
     healthcheck:
       # Test container health by curling the web interface
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      test: ["CMD", "curl", "-f", "http://localhost:8100"]
       # Check every 30 seconds
       interval: 30s
       # Timeout after 10 seconds if no response

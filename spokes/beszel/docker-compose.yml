@@ -14,16 +14,7 @@ services:
       - traefik.http.routers.beszel.tls.certresolver=cloudflare
       - traefik.http.routers.beszel.tls.domains[0].main=beszel.${DOMAIN_NAME}
 
-      # Use the standard headers middleware to ensure HTTPS is passed
-      - "traefik.http.routers.beszel.middlewares=beszel-headers"
-      - "traefik.http.middlewares.beszel-headers.headers.sslProxyHeaders.X-Forwarded-Proto=https"
-      - "traefik.http.middlewares.beszel-headers.headers.browserXssFilter=true"
-      # Tell Traefik to pass the original user IP
-      - "traefik.http.middlewares.beszel-proxy.headers.forwardedHeadersCustomName=X-Forwarded-For"
-      # Force SSE (Realtime) to work through the proxy
-      - "traefik.http.middlewares.beszel-proxy.headers.customResponseHeaders.X-Accel-Buffering=no"
-      - "traefik.http.routers.beszel.middlewares=beszel-proxy"
-
+      - kuma.beszel.http.name=Beszel
       - kuma.beszel.http.url=https://beszel.${DOMAIN_NAME}
     environment:
       - APP_URL=https://beszel.${DOMAIN_NAME}
@@ -32,3 +23,8 @@ services:
       - USER_CREATION=${USER_CREATION}
       - USER_EMAIL=${USER_EMAIL}
       - USER_PASSWORD=${USER_PASSWORD}
+    networks:
+      - traefik_frontend
+networks:
+  traefik_frontend:
+    external: true

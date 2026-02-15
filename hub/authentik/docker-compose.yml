@@ -10,20 +10,23 @@ services:
       start_period: 20s
       test:
       - CMD-SHELL
-      - pg_isready -d $$authentik -U $$authentik
+      - pg_isready -d authentik -U authentik
       timeout: 5s
     image: docker.io/library/postgres:16-alpine
     container_name: authentik-postgresql
     restart: unless-stopped
     volumes:
     - ./data/database:/var/lib/postgresql/data
+    networks:
+      - authentik-backend
+
   server:
     command: server
     depends_on:
       postgresql:
         condition: service_healthy
     environment:
-      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
       - AUTHENTIK_POSTGRESQL__NAME=authentik
       - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
       - AUTHENTIK_POSTGRESQL__USER=authentik
@@ -48,18 +51,23 @@ services:
       - traefik.http.routers.authentik.tls.certresolver=cloudflare
       - traefik.http.routers.authentik.service=authentik
       - traefik.http.services.authentik.loadbalancer.server.port=9000
+      - traefik.docker.network=traefik_frontend
       - kuma.authentik.http.name=Authentik
       - kuma.authentik.http.url=https://auth.${DOMAIN_NAME}
     volumes:
     - ./data/data:/data
     - ./data/custom-templates:/templates
+    networks:
+      - traefik_frontend
+      - authentik-backend
+
   worker:
     command: worker
     depends_on:
       postgresql:
         condition: service_healthy
     environment:
-      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
       - AUTHENTIK_POSTGRESQL__NAME=authentik
       - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
       - AUTHENTIK_POSTGRESQL__USER=authentik
@@ -82,3 +90,11 @@ services:
     - ./data/data:/data
     - ./data/certs:/certs
     - ./data/custom-templates:/templates
+    networks:
+      - authentik-backend
+    
+networks:
+  authentik-backend:
+    internal: true
+  traefik_frontend:
+    external: true

@@ -19,10 +19,16 @@ entryPoints:
           scheme: https
   websecure:
     address: :443
+    forwardedHeaders:
+      trustedIPs:
+        - 172.16.0.0/12
+        - 10.0.0.0/8
+        - 127.0.0.1/32
 
 providers:
   docker:
     exposedByDefault: false
+    network: traefik_frontend
   file:
     directory: /etc/traefik/conf/
     watch: true

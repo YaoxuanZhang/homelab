@@ -24,3 +24,8 @@ services:
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./config/certs/:/var/traefik/certs/:rw
       - ./config/conf/:/etc/traefik/conf/:ro
+    networks:
+      - traefik_frontend
+networks:
+  traefik_frontend:
+    external: true

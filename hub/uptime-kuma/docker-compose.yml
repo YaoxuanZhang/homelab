@@ -23,6 +23,9 @@ services:
       options:
         max-size: 10m
         max-file: 3
+    networks:
+      - traefik_frontend
+
   autokuma:
     image: ghcr.io/bigboot/autokuma:latest
     container_name: uptime-kuma-autokuma
@@ -34,3 +37,7 @@ services:
     depends_on:
       uptime-kuma:
         condition: service_healthy
+  
+networks:
+  traefik_frontend:
+    external: true
