@@ -51,14 +51,14 @@ services:
       - traefik.http.routers.authentik.tls.certresolver=cloudflare
       - traefik.http.routers.authentik.service=authentik
       - traefik.http.services.authentik.loadbalancer.server.port=9000
-      - traefik.docker.network=traefik_frontend
+      - traefik.docker.network=traefik-frontend
       - kuma.authentik.http.name=Authentik
       - kuma.authentik.http.url=https://auth.${DOMAIN_NAME}
     volumes:
     - ./data/data:/data
     - ./data/custom-templates:/templates
     networks:
-      - traefik_frontend
+      - traefik-frontend
       - authentik-backend
 
   worker:
@@ -96,5 +96,5 @@ services:
 networks:
   authentik-backend:
     internal: true
-  traefik_frontend:
+  traefik-frontend:
     external: true

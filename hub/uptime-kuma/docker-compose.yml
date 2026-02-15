@@ -24,8 +24,8 @@ services:
         max-size: 10m
         max-file: 3
     networks:
-      - kuma_backend
-      - traefik_frontend
+      - kuma-backend
+      - traefik-frontend
 
   autokuma:
     image: ghcr.io/bigboot/autokuma:latest
@@ -39,10 +39,10 @@ services:
       uptime-kuma:
         condition: service_healthy
     networks:
-      - kuma_backend
+      - kuma-backend
   
 networks:
   kuma_backend:
     internal: true
-  traefik_frontend:
+  traefik-frontend:
     external: true

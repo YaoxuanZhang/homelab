@@ -31,7 +31,7 @@ services:
       - traefik.http.routers.netdata.tls.certresolver=cloudflare
       - traefik.http.routers.netdata.middlewares=authentik@file
     networks:
-      - traefik_frontend
+      - traefik-frontend
 
 volumes:
   netdataconfig:
@@ -39,5 +39,5 @@ volumes:
   netdatacache:
 
 networks:
-  traefik_frontend:
+  traefik-frontend:
     external: true

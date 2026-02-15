@@ -28,7 +28,7 @@ entryPoints:
 providers:
   docker:
     exposedByDefault: false
-    network: traefik_frontend
+    network: traefik-frontend
   file:
     directory: /etc/traefik/conf/
     watch: true

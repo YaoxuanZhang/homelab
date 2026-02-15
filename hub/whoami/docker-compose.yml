@@ -14,7 +14,7 @@ services:
       - kuma.whoami.http.name=Whoami
       - kuma.whoami.http.url=https://whoami.${DOMAIN_NAME}
     networks:
-      - traefik_frontend
+      - traefik-frontend
 networks:
-  traefik_frontend:
+  traefik-frontend:
     external: true

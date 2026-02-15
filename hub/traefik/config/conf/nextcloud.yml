@@ -12,7 +12,6 @@ http:
     nextcloud-service:
       loadBalancer:
         servers:
-          # Use the container name or the host IP if not on the same network
           - url: "http://nextcloud-aio-apache:11000"
 
   middlewares:
