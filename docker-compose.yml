@@ -11,7 +11,7 @@ include:
   # - path: spokes/calcom/docker-compose.yml
   # - path: spokes/nextcloud/docker-compose.yml
   # - path: spokes/paperless/docker-compose.yml
-  # - path: spokes/uptime-kuma/docker-compose.yml
+   - path: spokes/uptime-kuma/docker-compose.yml
   # - path: spokes/watchtower/docker-compose.yml
 
 networks:

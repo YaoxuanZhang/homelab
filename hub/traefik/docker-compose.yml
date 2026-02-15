@@ -9,6 +9,16 @@ services:
     ports:
       - 443:443
       - 8080:8080
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik-dash.rule=Host(`traefik.${DOMAIN_NAME}`)
+      - traefik.http.routers.traefik-dash.service=api@internal
+      - traefik.http.routers.traefik-dash.entrypoints=websecure
+      - traefik.http.routers.traefik-dash.tls=true
+      - traefik.http.routers.traefik-dash.tls.certresolver=cloudflare
+      - traefik.http.routers.traefik-dash.middlewares=authentik@file
+      - kuma.traefik.http.name=Traefik
+      - kuma.traefik.http.url=https://traefik.${DOMAIN_NAME}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro

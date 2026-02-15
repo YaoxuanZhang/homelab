@@ -1,0 +1,38 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2.1.1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:3001]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.status.rule=Host(`status.${DOMAIN_NAME}`)
+      - traefik.http.routers.status.entrypoints=websecure
+      - traefik.http.routers.status.tls=true
+      - traefik.http.routers.status.tls.certresolver=cloudflare
+      - traefik.http.routers.status.middlewares=authentik@file
+      - kuma.status.http.name=Uptime Kuma
+      - kuma.status.http.url=https://status.${DOMAIN_NAME}
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 3
+  autokuma:
+    image: ghcr.io/bigboot/autokuma:latest
+    container_name: uptime-kuma-autokuma
+    restart: unless-stopped
+    environment:
+      - AUTOKUMA__KUMA__URL=http://uptime-kuma:3001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      uptime-kuma:
+        condition: service_healthy

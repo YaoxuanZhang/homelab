@@ -1,4 +1,4 @@
 .env
 *credentials.json
-hub/authentik/data
+data/
 hub/traefik/config/certs
