@@ -6,13 +6,12 @@ include:
    - path: hub/authentik/docker-compose.yml
    - path: hub/cloudflared/docker-compose.yml
    - path: hub/traefik/docker-compose.yml
+   - path: hub/uptime-kuma/docker-compose.yml
+   - path: hub/whoami/docker-compose.yml
   # Spoke Services (Applications)
-   - path: spokes/whoami/docker-compose.yml
   # - path: spokes/calcom/docker-compose.yml
   # - path: spokes/nextcloud/docker-compose.yml
   # - path: spokes/paperless/docker-compose.yml
-   - path: spokes/uptime-kuma/docker-compose.yml
-  # - path: spokes/watchtower/docker-compose.yml
 
 networks:
   frontend:

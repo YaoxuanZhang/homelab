@@ -88,29 +88,6 @@ if (-not (Test-Path $credentialsDest)) {
     Write-Host "Credentials file already exists at $credentialsDest."
 }
 
-# Ensure cloudflared.yml has correct values
-$configFile = "hub/cloudflared/config/cloudflared.yml"
-if (Test-Path $configFile) {
-    Write-Host "Updating $configFile with actual values..."
-    $configContent = Get-Content $configFile
-    $updatedConfig = $configContent | ForEach-Object {
-        if ($_ -match '^\s*tunnel:\s+.*') {
-            "tunnel: $tunnelId"
-        } elseif ($_ -match 'hostname:\s+.*') {
-            if ($_ -match 'hostname:\s+"?\*\..*"') {
-                 $_ -replace 'hostname:\s+.*', "hostname: `"*.$domainName`""
-            } else {
-                 $_ -replace 'hostname:\s+.*', "hostname: `"$domainName`""
-            }
-        } else {
-            $_
-        }
-    }
-    $updatedConfig | Set-Content $configFile
-} else {
-    Write-Host "$configFile is missing."
-}
-
 # ONLY update .env after everything else is successful
 if ($isNewTunnel -and $tunnelId) {
     Write-Host "Updating $envFile with CLOUDFLARE_TUNNEL_ID=$tunnelId"

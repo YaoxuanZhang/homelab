@@ -4,7 +4,7 @@ services:
     image: cloudflare/cloudflared:2026.2.0
     container_name: cloudflared
     restart: unless-stopped
-    command: tunnel --no-autoupdate run --protocol http2
+    command: tunnel --no-autoupdate --protocol http2 run ${CLOUDFLARE_TUNNEL_ID}
     volumes:
       - ./config/cloudflared.yml:/etc/cloudflared/config.yml:ro
       - ./config/credentials.json:/etc/cloudflared/credentials.json:ro

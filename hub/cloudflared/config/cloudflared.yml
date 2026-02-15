@@ -1,14 +1,7 @@
 # hub/cloudflared/config/cloudflared.yml
-tunnel: 93244815-d8ab-427d-8072-57b9b886f6a9
 credentials-file: /etc/cloudflared/credentials.json
 
 ingress:
-  - hostname: "jianling.org"
-    service: https://traefik:443
+  - service: https://traefik:443
     originRequest:
       noTLSVerify: true
-  - hostname: "*.jianling.org"
-    service: https://traefik:443
-    originRequest:
-      noTLSVerify: true
-  - service: http_status:404

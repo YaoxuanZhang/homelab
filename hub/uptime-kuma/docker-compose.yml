@@ -18,8 +18,8 @@ services:
       - traefik.http.routers.status.tls=true
       - traefik.http.routers.status.tls.certresolver=cloudflare
       - traefik.http.routers.status.middlewares=authentik@file
-      - kuma.status.http.name=Uptime Kuma
-      - kuma.status.http.url=https://status.${DOMAIN_NAME}
+      - kuma.uptime-kuma.http.name=Uptime Kuma
+      - kuma.uptime-kuma.http.url=https://status.${DOMAIN_NAME}
     logging:
       driver: json-file
       options:
