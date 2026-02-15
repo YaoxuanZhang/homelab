@@ -1,7 +1,7 @@
 # homelab/hub/cloudflared/docker-compose.yml
 services:
   cloudflared:
-    image: cloudflare/cloudflared:2026.2.0
+    image: cloudflare/cloudflared
     container_name: cloudflared
     restart: unless-stopped
     command: tunnel --no-autoupdate --protocol http2 run ${CLOUDFLARE_TUNNEL_ID}
