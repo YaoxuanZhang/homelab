@@ -9,8 +9,8 @@ services:
       - ./config/cloudflared.yml:/etc/cloudflared/config.yml:ro
       - ./config/credentials.json:/etc/cloudflared/credentials.json:ro
     networks:
-      - traefik-frontend
+      - cloudflare-frontend
       
 networks:
-  traefik-frontend:
+  cloudflare-frontend:
     external: true
