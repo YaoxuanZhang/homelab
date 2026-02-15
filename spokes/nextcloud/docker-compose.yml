@@ -8,6 +8,7 @@ services:
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config # This line is not allowed to be changed as otherwise the built-in backup solution will not work
       - /var/run/docker.sock:/var/run/docker.sock:ro # May be changed on macOS, Windows or docker rootless. See the applicable documentation. If adjusting, don't forget to also set 'WATCHTOWER_DOCKER_SOCKET_PATH'!
+      - ./data:/mnt/ncdata # This is the Nextcloud data directory. See https://github.com/nextcloud/all-in-one#how-to-change-the-default-location-of-nextclouds-datadir
       # ports:
       # - 8080:8080 # This is the AIO interface, served via https and self-signed certificate. See https://github.com/nextcloud/all-in-one#explanation-of-used-ports
       # security_opt: ["label:disable"] # Is needed when using SELinux. See https://github.com/nextcloud/all-in-one#are-there-known-problems-when-selinux-is-enabled
@@ -41,8 +42,12 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud.rule=Host(`nextcloud.${DOMAIN_NAME}`)
-      - traefik.http.routers.nextcloud.entrypoints=web
+      - traefik.http.routers.nextcloud.entrypoints=websecure
+      - traefik.http.routers.nextcloud.tls=true
+      - traefik.http.routers.nextcloud.tls.certresolver=cloudflare
       - traefik.http.routers.nextcloud.middlewares=authentik@file
+      - traefik.http.services.nextcloud.loadbalancer.server.port=8080
+      - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
       - kuma.nextcloud.http.name=Nextcloud
       - kuma.nextcloud.http.url=https://nextcloud.${DOMAIN_NAME}
 

@@ -28,6 +28,10 @@ providers:
     directory: /etc/traefik/conf/
     watch: true
 
+# allow self signed certs
+serversTransport:
+  insecureSkipVerify: true
+
 certificatesResolvers:
   cloudflare:
     acme:
@@ -38,8 +42,8 @@ certificatesResolvers:
       keyType: EC256
       dnsChallenge:
         provider: cloudflare
-        # 1. Disable the internal check that is currently timing out
+        # disable the internal check that is currently timing out
         propagation:
           disableChecks: true
-          # 2. Add a manual delay to give Cloudflare time to update (60-120s)
+          # add a manual delay to give Cloudflare time to update (60-120s)
           delayBeforeChecks: 90

@@ -9,14 +9,14 @@ services:
       retries: 5
       start_period: 20s
       test:
-      - CMD-SHELL
-      - pg_isready -d authentik -U authentik
+        - CMD-SHELL
+        - pg_isready -d authentik -U authentik
       timeout: 5s
     image: docker.io/library/postgres:16-alpine
     container_name: authentik-postgresql
     restart: unless-stopped
     volumes:
-    - ./data/database:/var/lib/postgresql/data
+      - ./data/database:/var/lib/postgresql/data
     networks:
       - authentik-backend
 
@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.authentik.rule=Host(`auth.${DOMAIN_NAME}`)
+      - traefik.http.routers.authentik.rule=Host(`authentik.${DOMAIN_NAME}`)
       - traefik.http.routers.authentik.entrypoints=websecure
       - traefik.http.routers.authentik.tls=true
       - traefik.http.routers.authentik.tls.certresolver=cloudflare
@@ -53,10 +53,10 @@ services:
       - traefik.http.services.authentik.loadbalancer.server.port=9000
       - traefik.docker.network=traefik-frontend
       - kuma.authentik.http.name=Authentik
-      - kuma.authentik.http.url=https://auth.${DOMAIN_NAME}
+      - kuma.authentik.http.url=https://authentik.${DOMAIN_NAME}
     volumes:
-    - ./data/data:/data
-    - ./data/custom-templates:/templates
+      - ./data/data:/data
+      - ./data/custom-templates:/templates
     networks:
       - traefik-frontend
       - authentik-backend
@@ -86,13 +86,13 @@ services:
     restart: unless-stopped
     user: root
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - ./data/data:/data
-    - ./data/certs:/certs
-    - ./data/custom-templates:/templates
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/data:/data
+      - ./data/certs:/certs
+      - ./data/custom-templates:/templates
     networks:
       - authentik-backend
-    
+
 networks:
   authentik-backend:
     internal: true

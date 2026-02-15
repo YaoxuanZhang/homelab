@@ -12,5 +12,5 @@ include:
   # Spoke Services (Applications)
   # - path: spokes/stirlingpdf/docker-compose.yml
   # - path: spokes/calcom/docker-compose.yml
-  # - path: spokes/nextcloud/docker-compose.yml
+   - path: spokes/nextcloud/docker-compose.yml
   # - path: spokes/paperlessngx/docker-compose.yml
