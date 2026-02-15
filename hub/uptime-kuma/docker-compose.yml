@@ -42,7 +42,7 @@ services:
       - kuma-backend
   
 networks:
-  kuma_backend:
+  kuma-backend:
     internal: true
   traefik-frontend:
     external: true
