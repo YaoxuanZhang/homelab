@@ -1,17 +1,39 @@
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
+
 log:
-  level: DEBUG
+  level: INFO
+
 api:
   dashboard: true
   insecure: true
+
 entrypoints:
-  web:
-    address: :80
   websecure:
     address: :443
+
 providers:
   docker:
-    endpoint: "unix:///var/run/docker.sock"
-    exposeByDefault: false
+    exposedByDefault: false
+
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: traefik.automations@jasonzhang.org
+      storage: "/var/traefik/certs/cloudflare-acme.json"
+      # caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      keyType: EC256
+      dnsChallenge:
+        provider: cloudflare
+          #! Custom DNS and port 53 may be blocked by ISP
+          # REMOVE the resolvers block entirely for now
+          # resolvers:
+          #   - "1.1.1.1:53"
+          #   - "8.8.8.8:53"
+        # 1. Disable the internal check that is currently timing out
+        propagation:
+          disableChecks: true
+          # 2. Add a manual delay to give Cloudflare time to update (60-120s)
+          delayBeforeChecks: 90

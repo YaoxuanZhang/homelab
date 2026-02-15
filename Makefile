@@ -11,6 +11,8 @@ down:
 down-v:
 	docker compose down -v
 
+reset: down-v up
+
 restart:
 	docker compose restart
 

@@ -4,11 +4,11 @@ credentials-file: /etc/cloudflared/credentials.json
 
 ingress:
   - hostname: "jianling.org"
-    service: http://whoami:80
+    service: https://traefik:443
     originRequest:
       noTLSVerify: true
   - hostname: "*.jianling.org"
-    service: http://whoami:80
+    service: https://traefik:443
     originRequest:
       noTLSVerify: true
   - service: http_status:404
