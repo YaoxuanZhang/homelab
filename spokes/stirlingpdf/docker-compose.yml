@@ -1,0 +1,62 @@
+services:
+  # Service name for the Stirling-PDF application
+  stirling-pdf:
+    # Specify the Docker image to use for Stirling-PDF
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    # Set a custom name for the container
+    container_name: stirling-pdf
+    # Configure the container to restart unless explicitly stopped
+    restart: unless-stopped
+    # Map host port 8080 to container port 8080 for web access
+    ports:
+      - "8080:8080"
+    # Define persistent storage volumes for data and configurations
+    volumes:
+      # Mount local directory for OCR language data (Tesseract)
+      - ./data/trainingData:/usr/share/tessdata
+      # Mount local directory for optional additional configurations
+      - ./data/extraConfigs:/configs
+      # Mount local directory for custom UI/branding files
+      - ./data/customFiles:/customFiles/
+      # Mount local directory for log persistence
+      - ./data/logs:/logs/
+      # Mount local directory for PDF processing pipeline jobs (used for batch processing)
+      - ./data/pipeline:/pipeline/
+    # Configure healthcheck to verify container is running correctly
+    healthcheck:
+      # Test container health by curling the web interface
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      # Check every 30 seconds
+      interval: 30s
+      # Timeout after 10 seconds if no response
+      timeout: 10s
+      # Retry 3 times before marking unhealthy
+      retries: 3
+      # Wait 30 seconds before starting health checks
+      start_period: 30s
+    # Configure logging options for the container
+    logging:
+      # Use JSON file driver for structured logging
+      driver: "json-file"
+      # Logging options to manage log file size and retention
+      options:
+        # Limit individual log file size to 10MB
+        max-size: "10m"
+        # Keep up to 5 log files before rotating
+        max-file: "5"
+    # Specify resource limits and reservations for the container
+    deploy:
+      resources:
+        # Define maximum resource limits
+        limits:
+          # Limit memory usage to 1g
+          memory: 1g
+          # Limit CPU usage to 1.5 cores
+          cpus: "1.5"
+        # Define reserved resources
+        reservations:
+          # Reserve 512MB of memory
+          memory: 512M
+          # Reserve 1 CPU core
+          cpus: "1.0"
+

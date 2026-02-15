@@ -7,6 +7,7 @@ services:
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     ports:
+      - 80:80
       - 443:443
     labels:
       - traefik.enable=true
