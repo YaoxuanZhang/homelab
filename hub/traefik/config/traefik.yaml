@@ -19,11 +19,6 @@ entryPoints:
           scheme: https
   websecure:
     address: :443
-    forwardedHeaders:
-      trustedIPs:
-        - 172.16.0.0/12
-        - 10.0.0.0/8
-        - 127.0.0.1/32
 
 providers:
   docker:
@@ -43,11 +38,6 @@ certificatesResolvers:
       keyType: EC256
       dnsChallenge:
         provider: cloudflare
-          #! Custom DNS and port 53 may be blocked by ISP
-          # REMOVE the resolvers block entirely for now
-          # resolvers:
-          #   - 1.1.1.1:53
-          #   - 8.8.8.8:53
         # 1. Disable the internal check that is currently timing out
         propagation:
           disableChecks: true

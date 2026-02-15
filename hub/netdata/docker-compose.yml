@@ -25,7 +25,7 @@ services:
       - /run/dbus:/run/dbus:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.netdata.rule=Host(`system.${DOMAIN_NAME}`)
+      - traefik.http.routers.netdata.rule=Host(`netdata.${DOMAIN_NAME}`)
       - traefik.http.routers.netdata.entrypoints=websecure
       - traefik.http.routers.netdata.tls=true
       - traefik.http.routers.netdata.tls.certresolver=cloudflare
