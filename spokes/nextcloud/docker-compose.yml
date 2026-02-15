@@ -39,7 +39,7 @@ services:
       - traefik_frontend
     labels:
       - kuma.nextcloud.http.name=Nextcloud
-      - kuma.nextcloud.http.url=https://nextcloud.${DOMAIN_NAME}
+      - kuma.nextcloud.http.url=https://cloud.${DOMAIN_NAME}
 
 volumes: # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive
   nextcloud_aio_mastercontainer:
