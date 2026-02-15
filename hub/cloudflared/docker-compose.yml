@@ -9,8 +9,7 @@ services:
       - ./config/cloudflared.yml:/etc/cloudflared/config.yml:ro
       - ./config/credentials.json:/etc/cloudflared/credentials.json:ro
     networks:
-      - cloudflare-frontend
-      
+      - cloudflare-backend
+
 networks:
-  cloudflare-frontend:
-    external: true
+  cloudflare-backend:

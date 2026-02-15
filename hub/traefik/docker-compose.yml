@@ -26,9 +26,8 @@ services:
       - ./config/conf/:/etc/traefik/conf/:ro
     networks:
       - traefik-frontend
-      - cloudflare-frontend
+      - cloudflare-backend
 networks:
   traefik-frontend:
     external: true
-  cloudflare-frontend:
-    external: true
+  cloudflare-backend:
