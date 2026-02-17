@@ -137,7 +137,7 @@ def generate_gatus_config(domain_name):
 
 def main():
     domain_name = get_domain()
-    # generate_authentik_blueprints(domain_name)
+    generate_authentik_blueprints(domain_name)
     generate_gatus_config(domain_name)
 
 
