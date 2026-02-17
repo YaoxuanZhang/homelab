@@ -11,8 +11,6 @@ services:
       - traefik.http.routers.whoami.tls=true
       - traefik.http.routers.whoami.tls.certresolver=cloudflare
       - traefik.http.routers.whoami.middlewares=authentik@docker
-      - kuma.whoami.http.name=Whoami
-      - kuma.whoami.http.url=https://whoami.${DOMAIN_NAME}
     networks:
       - traefik-frontend
 networks:

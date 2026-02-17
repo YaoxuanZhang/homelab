@@ -45,11 +45,9 @@ services:
       - traefik.http.routers.nextcloud.entrypoints=websecure
       - traefik.http.routers.nextcloud.tls=true
       - traefik.http.routers.nextcloud.tls.certresolver=cloudflare
-      - traefik.http.routers.nextcloud.middlewares=authentik@file
+      - traefik.http.routers.nextcloud.middlewares=authentik@docker
       - traefik.http.services.nextcloud.loadbalancer.server.port=8080
       - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
-      - kuma.nextcloud.http.name=Nextcloud
-      - kuma.nextcloud.http.url=https://nextcloud.${DOMAIN_NAME}
 
 volumes:
   # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive

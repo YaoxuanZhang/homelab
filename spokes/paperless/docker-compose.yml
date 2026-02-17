@@ -80,9 +80,7 @@ services:
       - traefik.http.routers.paperless.entrypoints=websecure
       - traefik.http.routers.paperless.tls=true
       - traefik.http.routers.paperless.tls.certresolver=cloudflare
-      - traefik.http.routers.paperless.middlewares=authentik@file
-      - kuma.paperless.http.name=Paperless
-      - kuma.paperless.http.url=https://paperless.${DOMAIN_NAME}
+      - traefik.http.routers.paperless.middlewares=authentik@docker
     networks:
       - paperless-backend
       - traefik-frontend

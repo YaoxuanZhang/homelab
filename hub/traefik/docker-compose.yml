@@ -17,8 +17,6 @@ services:
       - traefik.http.routers.traefik-dash.tls=true
       - traefik.http.routers.traefik-dash.tls.certresolver=cloudflare
       - traefik.http.routers.traefik-dash.middlewares=authentik@docker
-      - kuma.traefik.http.name=Traefik
-      - kuma.traefik.http.url=https://traefik.${DOMAIN_NAME}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro

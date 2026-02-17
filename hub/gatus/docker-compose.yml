@@ -1,0 +1,21 @@
+services:
+  gatus:
+    image: twinproduction/gatus:latest
+    container_name: gatus
+    restart: unless-stopped
+    volumes:
+      - ./config/config.yaml:/config/config.yaml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gatus.rule=Host(`gatus.${DOMAIN_NAME}`)
+      - traefik.http.routers.gatus.entrypoints=websecure
+      - traefik.http.routers.gatus.tls=true
+      - traefik.http.routers.gatus.tls.certresolver=cloudflare
+      - traefik.http.routers.gatus.middlewares=authentik@docker
+    networks:
+      - traefik-frontend
+
+networks:
+  traefik-frontend:
+    external: true
