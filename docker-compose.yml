@@ -13,4 +13,4 @@ include:
   # - path: spokes/stirlingpdf/docker-compose.yml
   # - path: spokes/calcom/docker-compose.yml
    - path: spokes/nextcloud/docker-compose.yml
-  # - path: spokes/paperlessngx/docker-compose.yml
+   - path: spokes/paperless/docker-compose.yml
