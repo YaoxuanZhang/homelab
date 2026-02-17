@@ -1,7 +1,7 @@
 # docker-compose.yml
 services:
   whoami:
-    image: traefik/whoami
+    image: traefik/whoami:latest
     container_name: traefik-whoami
     restart: unless-stopped
     labels:
