@@ -79,7 +79,7 @@ def generate_authentik_blueprints(domain_name):
         )
 
     output_path = os.path.join(
-        os.path.dirname(__file__), "authentik/blueprints/hub-apps.yaml"
+        os.path.dirname(__file__), "authentik/blueprints/generated-apps.yaml"
     )
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w") as f:
