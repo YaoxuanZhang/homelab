@@ -88,10 +88,7 @@ services:
       - AUTHENTIK_HOST=https://authentik.${DOMAIN_NAME}
       - AUTHENTIK_BOOTSTRAP_EMAIL=${AUTHENTIK_BOOTSTRAP_EMAIL}
       - AUTHENTIK_BOOTSTRAP_PASSWORD=${AUTHENTIK_BOOTSTRAP_PASSWORD}
-      - TRAEFIK_DOMAIN=https://traefik.${DOMAIN_NAME}
-      - NETDATA_DOMAIN=https://netdata.${DOMAIN_NAME}
-      - KUMA_DOMAIN=https://kuma.${DOMAIN_NAME}
-      - WHOAMI_DOMAIN=https://whoami.${DOMAIN_NAME}
+      - DOMAIN_NAME=${DOMAIN_NAME}
     image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-worker
     restart: unless-stopped

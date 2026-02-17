@@ -5,7 +5,6 @@ import sys
 APPS = [
     "Traefik",
     "Netdata",
-    "Kuma",
     "Whoami",
     "Paperless",
     "Nextcloud",
@@ -23,7 +22,7 @@ def get_domain():
                 "Error: DOMAIN_NAME environment variable not set and not provided as argument."
             )
             sys.exit(1)
-    return domain_name
+    return domain_name.strip()
 
 
 def generate_authentik_blueprints(domain_name):
@@ -138,7 +137,7 @@ def generate_gatus_config(domain_name):
 
 def main():
     domain_name = get_domain()
-    generate_authentik_blueprints(domain_name)
+    # generate_authentik_blueprints(domain_name)
     generate_gatus_config(domain_name)
 
 

@@ -4,7 +4,8 @@ services:
     container_name: gatus
     restart: unless-stopped
     volumes:
-      - ./config/config.yaml:/config/config.yaml:ro
+      - ./config:/config:ro
+      - ./data:/data
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - traefik.enable=true
