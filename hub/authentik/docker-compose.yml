@@ -1,5 +1,5 @@
 services:
-  postgresql:
+  authentik-postgresql:
     environment:
       - POSTGRES_DB=authentik
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -16,14 +16,13 @@ services:
     container_name: authentik-postgresql
     restart: unless-stopped
     volumes:
-      - ./data/database:/var/lib/postgresql/data
+      - authentik-database:/var/lib/postgresql/data
     networks:
       - authentik-backend
-
-  server:
+  authentik-server:
     command: server
     depends_on:
-      postgresql:
+      authentik-postgresql:
         condition: service_healthy
     environment:
       - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
@@ -40,6 +39,9 @@ services:
       - AUTHENTIK_EMAIL__USE_SSL=${AUTHENTIK_EMAIL__USE_SSL}
       - AUTHENTIK_EMAIL__TIMEOUT=${AUTHENTIK_EMAIL__TIMEOUT}
       - AUTHENTIK_EMAIL__FROM=${AUTHENTIK_EMAIL__FROM}
+      - AUTHENTIK_HOST=https://authentik.${DOMAIN_NAME}
+      - AUTHENTIK_BOOTSTRAP_EMAIL=${AUTHENTIK_BOOTSTRAP_EMAIL}
+      - AUTHENTIK_BOOTSTRAP_PASSWORD=${AUTHENTIK_BOOTSTRAP_PASSWORD}
     image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-server
     restart: unless-stopped
@@ -52,19 +54,23 @@ services:
       - traefik.http.routers.authentik.service=authentik
       - traefik.http.services.authentik.loadbalancer.server.port=9000
       - traefik.docker.network=traefik-frontend
+      - traefik.http.middlewares.authentik.forwardauth.address=http://authentik-server:9000/outpost.goauthentik.io/auth/traefik
+      - traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true
+      - traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
       - kuma.authentik.http.name=Authentik
       - kuma.authentik.http.url=https://authentik.${DOMAIN_NAME}
     volumes:
-      - ./data/data:/data
-      - ./data/custom-templates:/templates
+      - authentik-data:/data
+      - authentik-certs:/certs
+      - authentik-custom-templates:/templates
     networks:
       - traefik-frontend
       - authentik-backend
 
-  worker:
+  authentik-worker:
     command: worker
     depends_on:
-      postgresql:
+      authentik-postgresql:
         condition: service_healthy
     environment:
       - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
@@ -81,15 +87,23 @@ services:
       - AUTHENTIK_EMAIL__USE_SSL=${AUTHENTIK_EMAIL__USE_SSL}
       - AUTHENTIK_EMAIL__TIMEOUT=${AUTHENTIK_EMAIL__TIMEOUT}
       - AUTHENTIK_EMAIL__FROM=${AUTHENTIK_EMAIL__FROM}
+      - AUTHENTIK_HOST=https://authentik.${DOMAIN_NAME}
+      - AUTHENTIK_BOOTSTRAP_EMAIL=${AUTHENTIK_BOOTSTRAP_EMAIL}
+      - AUTHENTIK_BOOTSTRAP_PASSWORD=${AUTHENTIK_BOOTSTRAP_PASSWORD}
+      - TRAEFIK_DOMAIN=https://traefik.${DOMAIN_NAME}
+      - NETDATA_DOMAIN=https://netdata.${DOMAIN_NAME}
+      - KUMA_DOMAIN=https://kuma.${DOMAIN_NAME}
+      - WHOAMI_DOMAIN=https://whoami.${DOMAIN_NAME}
     image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-worker
     restart: unless-stopped
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./data/data:/data
-      - ./data/certs:/certs
-      - ./data/custom-templates:/templates
+      - authentik-data:/data
+      - authentik-certs:/certs
+      - authentik-custom-templates:/templates
+      - ./blueprints:/blueprints/custom:ro
     networks:
       - authentik-backend
 
@@ -98,3 +112,9 @@ networks:
     internal: true
   traefik-frontend:
     external: true
+
+volumes:
+  authentik-database:
+  authentik-data:
+  authentik-certs:
+  authentik-custom-templates:

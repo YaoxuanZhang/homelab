@@ -17,12 +17,7 @@ services:
       - traefik.http.routers.kuma.entrypoints=websecure
       - traefik.http.routers.kuma.tls=true
       - traefik.http.routers.kuma.tls.certresolver=cloudflare
-      - traefik.http.routers.kuma.middlewares=authentik@file
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: 3
+      - traefik.http.routers.kuma.middlewares=authentik@docker
     networks:
       - kuma-backend
       - traefik-frontend

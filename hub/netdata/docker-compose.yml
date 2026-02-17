@@ -10,9 +10,9 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - netdataconfig:/etc/netdata
-      - netdatalib:/var/lib/netdata
-      - netdatacache:/var/cache/netdata
+      - netdata-config:/etc/netdata
+      - netdata-lib:/var/lib/netdata
+      - netdata-cache:/var/cache/netdata
       - /:/host/root:ro
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
@@ -29,16 +29,16 @@ services:
       - traefik.http.routers.netdata.entrypoints=websecure
       - traefik.http.routers.netdata.tls=true
       - traefik.http.routers.netdata.tls.certresolver=cloudflare
-      - traefik.http.routers.netdata.middlewares=authentik@file
+      - traefik.http.routers.netdata.middlewares=authentik@docker
       - kuma.netdata.http.name=Netdata
       - kuma.netdata.http.url=https://netdata.${DOMAIN_NAME}
     networks:
       - traefik-frontend
 
 volumes:
-  netdataconfig:
-  netdatalib:
-  netdatacache:
+  netdata-config:
+  netdata-lib:
+  netdata-cache:
 
 
 networks:
