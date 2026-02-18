@@ -1,9 +1,8 @@
-.PHONY: up down restart pull logs config ps setup
+.PHONY: up down restart pull logs config ps setup-cloudflare setup-gatus
 
-all: setup up
+all: up
 
-up:
-	uv run scripts/generate_endpoints.py
+up: setup-gatus
 	docker compose up -d
 
 down:
@@ -32,4 +31,5 @@ ps:
 setup-cloudflare:
 	powershell -ExecutionPolicy Bypass -File ./hub/cloudflared/setup-cloudflare.ps1
 
-setup: setup-cloudflare
+setup-gatus:
+	uv run scripts/generate_endpoints.py

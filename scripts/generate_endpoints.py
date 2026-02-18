@@ -104,7 +104,7 @@ def generate_gatus_config(domain_name, endpoints):
     output_lines.append("# Gatus Configuration - Generated")
     output_lines.append("storage:")
     output_lines.append("  type: sqlite")
-    output_lines.append("  path: /data/data.db")
+    output_lines.append("  path: /config/data.db")
     output_lines.append("")
 
     output_lines.append("ui:")
