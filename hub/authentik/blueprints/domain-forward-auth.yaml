@@ -2,7 +2,7 @@ version: 1
 entries:
   - model: authentik_providers_proxy.proxyprovider
     identifiers:
-      name: "Domain Forward Auth Provider"
+      name: Domain Forward Auth Provider
     attrs:
       mode: forward_domain
       external_host: !Env AUTHENTIK_HOST
@@ -14,15 +14,15 @@ entries:
 
   - model: authentik_core.application
     identifiers:
-      slug: domain-sso
+      slug: domain-forward-auth
     attrs:
-      name: "Domain SSO"
+      name: Domain Forward Auth Application
       policy_engine_mode: any
-      provider: !Find [authentik_providers_proxy.proxyprovider, [name, "Domain Forward Auth Provider"]]
+      provider: !Find [authentik_providers_proxy.proxyprovider, [name, Domain Forward Auth Provider]]
 
   - model: authentik_outposts.outpost
     identifiers:
-      name: "authentik Embedded Outpost"
+      name: authentik Embedded Outpost
     attrs:
       providers:
-        - !Find [authentik_providers_proxy.proxyprovider, [name, "Domain Forward Auth Provider"]]
+        - !Find [authentik_providers_proxy.proxyprovider, [name, Domain Forward Auth Provider]]

@@ -7,16 +7,16 @@ services:
       - ./data:/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.gatus.rule=Host(`gatus.${DOMAIN_NAME}`)
-      - traefik.http.routers.gatus.entrypoints=websecure
-      - traefik.http.routers.gatus.tls=true
-      - traefik.http.routers.gatus.tls.certresolver=cloudflare
-      - traefik.http.routers.gatus.middlewares=authentik@docker
-      - homepage.group=Monitoring
-      - homepage.name=Gatus
-      - homepage.icon=gatus
-      - homepage.href=https://gatus.${DOMAIN_NAME}
+      traefik.enable: true
+      traefik.http.routers.gatus.rule: Host(`gatus.${DOMAIN_NAME}`)
+      traefik.http.routers.gatus.entrypoints: websecure
+      traefik.http.routers.gatus.tls: true
+      traefik.http.routers.gatus.tls.certresolver: cloudflare
+      traefik.http.routers.gatus.middlewares: authentik@docker
+      homepage.group: Monitoring
+      homepage.name: Gatus
+      homepage.icon: gatus
+      homepage.href: https://gatus.${DOMAIN_NAME}
     networks:
       - gatus-backend
       - traefik-frontend

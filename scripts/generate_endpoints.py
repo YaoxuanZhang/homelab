@@ -52,8 +52,14 @@ def parse_compose_file(file_path, domain_name):
                     key, value = label.split("=", 1)
                     label_dict[key] = value
         elif isinstance(labels, dict):
-            label_dict = labels
+            # Convert non-string values (like boolean True) to string "true" for consistent checking
+            for k, v in labels.items():
+                if isinstance(v, bool):
+                    label_dict[k] = str(v).lower()
+                else:
+                    label_dict[k] = str(v)
 
+        # Check for traefik.enable. explicitly check for string "true"
         if label_dict.get("traefik.enable") == "true":
             # Find the Host rule
             # expected format: traefik.http.routers.<name>.rule=Host(`sub.domain.com`)

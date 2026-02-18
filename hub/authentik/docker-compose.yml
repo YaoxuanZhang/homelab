@@ -1,9 +1,9 @@
 services:
   authentik-postgresql:
     environment:
-      - POSTGRES_DB=authentik
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=authentik
+      POSTGRES_DB: authentik
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: authentik
     healthcheck:
       interval: 30s
       retries: 5
@@ -25,42 +25,42 @@ services:
       authentik-postgresql:
         condition: service_healthy
     environment:
-      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
-      - AUTHENTIK_POSTGRESQL__NAME=authentik
-      - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
-      - AUTHENTIK_POSTGRESQL__USER=authentik
-      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
-      - AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING__ENABLED}
-      - AUTHENTIK_EMAIL__HOST=${AUTHENTIK_EMAIL__HOST}
-      - AUTHENTIK_EMAIL__PORT=${AUTHENTIK_EMAIL__PORT}
-      - AUTHENTIK_EMAIL__USERNAME=${AUTHENTIK_EMAIL__USERNAME}
-      - AUTHENTIK_EMAIL__PASSWORD=${AUTHENTIK_EMAIL__PASSWORD}
-      - AUTHENTIK_EMAIL__USE_TLS=${AUTHENTIK_EMAIL__USE_TLS}
-      - AUTHENTIK_EMAIL__USE_SSL=${AUTHENTIK_EMAIL__USE_SSL}
-      - AUTHENTIK_EMAIL__TIMEOUT=${AUTHENTIK_EMAIL__TIMEOUT}
-      - AUTHENTIK_EMAIL__FROM=${AUTHENTIK_EMAIL__FROM}
-      - AUTHENTIK_HOST=https://authentik.${DOMAIN_NAME}
-      - AUTHENTIK_BOOTSTRAP_EMAIL=${AUTHENTIK_BOOTSTRAP_EMAIL}
-      - AUTHENTIK_BOOTSTRAP_PASSWORD=${AUTHENTIK_BOOTSTRAP_PASSWORD}
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: ${AUTHENTIK_ERROR_REPORTING__ENABLED}
+      AUTHENTIK_EMAIL__HOST: ${AUTHENTIK_EMAIL__HOST}
+      AUTHENTIK_EMAIL__PORT: ${AUTHENTIK_EMAIL__PORT}
+      AUTHENTIK_EMAIL__USERNAME: ${AUTHENTIK_EMAIL__USERNAME}
+      AUTHENTIK_EMAIL__PASSWORD: ${AUTHENTIK_EMAIL__PASSWORD}
+      AUTHENTIK_EMAIL__USE_TLS: ${AUTHENTIK_EMAIL__USE_TLS}
+      AUTHENTIK_EMAIL__USE_SSL: ${AUTHENTIK_EMAIL__USE_SSL}
+      AUTHENTIK_EMAIL__TIMEOUT: ${AUTHENTIK_EMAIL__TIMEOUT}
+      AUTHENTIK_EMAIL__FROM: ${AUTHENTIK_EMAIL__FROM}
+      AUTHENTIK_HOST: https://authentik.${DOMAIN_NAME}
+      AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD}
     image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-server
     restart: unless-stopped
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.authentik.rule=Host(`authentik.${DOMAIN_NAME}`)
-      - traefik.http.routers.authentik.entrypoints=websecure
-      - traefik.http.routers.authentik.tls=true
-      - traefik.http.routers.authentik.tls.certresolver=cloudflare
-      - traefik.http.routers.authentik.service=authentik
-      - traefik.http.services.authentik.loadbalancer.server.port=9000
-      - traefik.docker.network=traefik-frontend
-      - traefik.http.middlewares.authentik.forwardauth.address=http://authentik-server:9000/outpost.goauthentik.io/auth/traefik
-      - traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true
-      - traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
-      - homepage.group=Infrastructure
-      - homepage.name=Authentik
-      - homepage.icon=authentik
-      - homepage.href=https://authentik.${DOMAIN_NAME}
+      traefik.enable: true
+      traefik.http.routers.authentik.rule: Host(`authentik.${DOMAIN_NAME}`)
+      traefik.http.routers.authentik.entrypoints: websecure
+      traefik.http.routers.authentik.tls: true
+      traefik.http.routers.authentik.tls.certresolver: cloudflare
+      traefik.http.routers.authentik.service: authentik
+      traefik.http.services.authentik.loadbalancer.server.port: 9000
+      traefik.docker.network: traefik-frontend
+      traefik.http.middlewares.authentik.forwardauth.address: http://authentik-server:9000/outpost.goauthentik.io/auth/traefik
+      traefik.http.middlewares.authentik.forwardauth.trustForwardHeader: true
+      traefik.http.middlewares.authentik.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
+      homepage.group: Infrastructure
+      homepage.name: Authentik
+      homepage.icon: authentik
+      homepage.href: https://authentik.${DOMAIN_NAME}
     volumes:
       - authentik-data:/data
       - authentik-certs:/certs
@@ -75,24 +75,28 @@ services:
       authentik-postgresql:
         condition: service_healthy
     environment:
-      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
-      - AUTHENTIK_POSTGRESQL__NAME=authentik
-      - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
-      - AUTHENTIK_POSTGRESQL__USER=authentik
-      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
-      - AUTHENTIK_ERROR_REPORTING__ENABLED=${AUTHENTIK_ERROR_REPORTING__ENABLED}
-      - AUTHENTIK_EMAIL__HOST=${AUTHENTIK_EMAIL__HOST}
-      - AUTHENTIK_EMAIL__PORT=${AUTHENTIK_EMAIL__PORT}
-      - AUTHENTIK_EMAIL__USERNAME=${AUTHENTIK_EMAIL__USERNAME}
-      - AUTHENTIK_EMAIL__PASSWORD=${AUTHENTIK_EMAIL__PASSWORD}
-      - AUTHENTIK_EMAIL__USE_TLS=${AUTHENTIK_EMAIL__USE_TLS}
-      - AUTHENTIK_EMAIL__USE_SSL=${AUTHENTIK_EMAIL__USE_SSL}
-      - AUTHENTIK_EMAIL__TIMEOUT=${AUTHENTIK_EMAIL__TIMEOUT}
-      - AUTHENTIK_EMAIL__FROM=${AUTHENTIK_EMAIL__FROM}
-      - AUTHENTIK_HOST=https://authentik.${DOMAIN_NAME}
-      - AUTHENTIK_BOOTSTRAP_EMAIL=${AUTHENTIK_BOOTSTRAP_EMAIL}
-      - AUTHENTIK_BOOTSTRAP_PASSWORD=${AUTHENTIK_BOOTSTRAP_PASSWORD}
-      - DOMAIN_NAME=${DOMAIN_NAME}
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: ${AUTHENTIK_ERROR_REPORTING__ENABLED}
+      AUTHENTIK_EMAIL__HOST: ${AUTHENTIK_EMAIL__HOST}
+      AUTHENTIK_EMAIL__PORT: ${AUTHENTIK_EMAIL__PORT}
+      AUTHENTIK_EMAIL__USERNAME: ${AUTHENTIK_EMAIL__USERNAME}
+      AUTHENTIK_EMAIL__PASSWORD: ${AUTHENTIK_EMAIL__PASSWORD}
+      AUTHENTIK_EMAIL__USE_TLS: ${AUTHENTIK_EMAIL__USE_TLS}
+      AUTHENTIK_EMAIL__USE_SSL: ${AUTHENTIK_EMAIL__USE_SSL}
+      AUTHENTIK_EMAIL__TIMEOUT: ${AUTHENTIK_EMAIL__TIMEOUT}
+      AUTHENTIK_EMAIL__FROM: ${AUTHENTIK_EMAIL__FROM}
+      AUTHENTIK_HOST: https://authentik.${DOMAIN_NAME}
+      AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      NEXTCLOUD_CLIENT_ID: ${NEXTCLOUD_CLIENT_ID}
+      NEXTCLOUD_CLIENT_SECRET: ${NEXTCLOUD_CLIENT_SECRET}
+      PAPERLESS_CLIENT_ID: ${PAPERLESS_CLIENT_ID}
+      PAPERLESS_CLIENT_SECRET: ${PAPERLESS_CLIENT_SECRET}
     image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-worker
     restart: unless-stopped

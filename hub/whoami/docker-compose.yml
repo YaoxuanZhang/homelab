@@ -5,16 +5,16 @@ services:
     container_name: traefik-whoami
     restart: unless-stopped
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.whoami.rule=Host(`whoami.${DOMAIN_NAME}`)
-      - traefik.http.routers.whoami.entrypoints=websecure
-      - traefik.http.routers.whoami.tls=true
-      - traefik.http.routers.whoami.tls.certresolver=cloudflare
-      - traefik.http.routers.whoami.middlewares=authentik@docker
-      - homepage.group=Infrastructure
-      - homepage.name=Whoami
-      - homepage.icon=whoami
-      - homepage.href=https://whoami.${DOMAIN_NAME}
+      traefik.enable: true
+      traefik.http.routers.whoami.rule: Host(`whoami.${DOMAIN_NAME}`)
+      traefik.http.routers.whoami.entrypoints: websecure
+      traefik.http.routers.whoami.tls: true
+      traefik.http.routers.whoami.tls.certresolver: cloudflare
+      traefik.http.routers.whoami.middlewares: authentik@docker
+      homepage.group: Infrastructure
+      homepage.name: Whoami
+      homepage.icon: whoami
+      homepage.href: https://whoami.${DOMAIN_NAME}
     networks:
       - traefik-frontend
 networks:
