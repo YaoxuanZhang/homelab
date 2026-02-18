@@ -27,7 +27,7 @@ def find_docker_compose_files(root_dir):
     return compose_files
 
 
-def parse_compose_file(file_path):
+def parse_compose_file(file_path, domain_name):
     endpoints = []
     try:
         with open(file_path, "r") as f:
@@ -83,7 +83,10 @@ def parse_compose_file(file_path):
                             # There might be cases like "uptime-kuma" -> "Uptime-kuma" or "Uptime Kuma"
                             # Let's just capitalize the first letter for now.
                             name = subdomain.capitalize()
-                            url = f"https://{full_host}"
+                            final_host = full_host.replace(
+                                "${DOMAIN_NAME}", domain_name
+                            )
+                            url = f"https://{final_host}"
                             endpoints.append(
                                 {"name": name, "url": url, "group": "services"}
                             )
@@ -145,7 +148,7 @@ def generate_gatus_config(domain_name, endpoints):
 
     # Go up one level from scripts/ to get to repo root
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    output_path = os.path.join(repo_root, "hub/gatus/config/config.yaml")
+    output_path = os.path.join(repo_root, "hub/gatus/data/config.yaml")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w") as f:
         f.write("\n".join(output_lines))
@@ -162,7 +165,7 @@ def main():
 
     all_endpoints = []
     for cf in compose_files:
-        endpoints = parse_compose_file(cf)
+        endpoints = parse_compose_file(cf, domain_name)
         all_endpoints.extend(endpoints)
 
     print(f"Found {len(all_endpoints)} services with Traefik enabled.")
