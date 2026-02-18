@@ -7,9 +7,17 @@ services:
     container_name: stirling-pdf
     # Configure the container to restart unless explicitly stopped
     restart: unless-stopped
-    # Map host port 8100 to container port 8100 for web access
-    ports:
-      - "8100:8100"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.stirlingpdf.rule=Host(`stirlingpdf.${DOMAIN_NAME}`)
+      - traefik.http.routers.stirlingpdf.entrypoints=websecure
+      - traefik.http.routers.stirlingpdf.tls=true
+      - traefik.http.routers.stirlingpdf.tls.certresolver=cloudflare
+      - traefik.http.services.stirlingpdf.loadbalancer.server.port=8080
+      - homepage.group=Apps
+      - homepage.href=https://stirlingpdf.${DOMAIN_NAME}
+      - homepage.icon=stirlingpdf.png
+      - homepage.name=Stirling PDF
     # Define persistent storage volumes for data and configurations
     volumes:
       # Mount local directory for OCR language data (Tesseract)
@@ -25,7 +33,7 @@ services:
     # Configure healthcheck to verify container is running correctly
     healthcheck:
       # Test container health by curling the web interface
-      test: ["CMD", "curl", "-f", "http://localhost:8100"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
       # Check every 30 seconds
       interval: 30s
       # Timeout after 10 seconds if no response
@@ -59,4 +67,9 @@ services:
           memory: 512M
           # Reserve 1 CPU core
           cpus: "1.0"
+    networks:
+      - traefik-frontend
 
+networks:
+  traefik-frontend:
+    external: true
