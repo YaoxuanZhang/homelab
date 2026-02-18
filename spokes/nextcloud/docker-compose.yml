@@ -48,9 +48,9 @@ services:
       - traefik.http.routers.nextcloud.middlewares=authentik@docker
       - traefik.http.services.nextcloud.loadbalancer.server.port=8080
       - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
-      - homepage.group=Apps
+      - homepage.group=Infrastructure
       - homepage.name=Nextcloud
-      - homepage.icon=nextcloud.png
+      - homepage.icon=nextcloud
       - homepage.href=https://nextcloud.${DOMAIN_NAME}
 
 volumes:

@@ -19,7 +19,7 @@ services:
       - traefik.http.routers.traefik-dash.middlewares=authentik@docker
       - homepage.group=Infrastructure
       - homepage.name=Traefik
-      - homepage.icon=traefik.png
+      - homepage.icon=traefik
       - homepage.href=https://traefik.${DOMAIN_NAME}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

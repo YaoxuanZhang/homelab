@@ -13,7 +13,7 @@ services:
       - traefik.http.routers.whoami.middlewares=authentik@docker
       - homepage.group=Infrastructure
       - homepage.name=Whoami
-      - homepage.icon=whoami.png
+      - homepage.icon=whoami
       - homepage.href=https://whoami.${DOMAIN_NAME}
     networks:
       - traefik-frontend

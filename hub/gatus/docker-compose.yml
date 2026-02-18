@@ -15,7 +15,7 @@ services:
       - traefik.http.routers.gatus.middlewares=authentik@docker
       - homepage.group=Monitoring
       - homepage.name=Gatus
-      - homepage.icon=gatus.png
+      - homepage.icon=gatus
       - homepage.href=https://gatus.${DOMAIN_NAME}
     networks:
       - gatus-backend

@@ -32,7 +32,7 @@ services:
       - traefik.http.routers.netdata.middlewares=authentik@docker
       - homepage.group=Monitoring
       - homepage.name=Netdata
-      - homepage.icon=netdata.png
+      - homepage.icon=netdata
       - homepage.href=https://netdata.${DOMAIN_NAME}
     networks:
       - traefik-frontend

@@ -7,29 +7,19 @@ services:
     container_name: stirling-pdf
     # Configure the container to restart unless explicitly stopped
     restart: unless-stopped
+    environment:
+      SECURITY_ENABLELOGIN: false
+      DISABLE_ADDITIONAL_FEATURES: false
     labels:
       - traefik.enable=true
       - traefik.http.routers.stirlingpdf.rule=Host(`stirlingpdf.${DOMAIN_NAME}`)
       - traefik.http.routers.stirlingpdf.entrypoints=websecure
       - traefik.http.routers.stirlingpdf.tls=true
       - traefik.http.routers.stirlingpdf.tls.certresolver=cloudflare
-      - traefik.http.services.stirlingpdf.loadbalancer.server.port=8080
       - homepage.group=Apps
       - homepage.href=https://stirlingpdf.${DOMAIN_NAME}
-      - homepage.icon=stirlingpdf.png
+      - homepage.icon=stirling-pdf
       - homepage.name=Stirling PDF
-    # Define persistent storage volumes for data and configurations
-    volumes:
-      # Mount local directory for OCR language data (Tesseract)
-      - ./data/trainingData:/usr/share/tessdata
-      # Mount local directory for optional additional configurations
-      - ./data/extraConfigs:/configs
-      # Mount local directory for custom UI/branding files
-      - ./data/customFiles:/customFiles/
-      # Mount local directory for log persistence
-      - ./data/logs:/logs/
-      # Mount local directory for PDF processing pipeline jobs (used for batch processing)
-      - ./data/pipeline:/pipeline/
     # Configure healthcheck to verify container is running correctly
     healthcheck:
       # Test container health by curling the web interface

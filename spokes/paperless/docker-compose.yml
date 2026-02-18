@@ -83,7 +83,7 @@ services:
       - traefik.http.routers.paperless.middlewares=authentik@docker
       - homepage.group=Apps
       - homepage.name=Paperless
-      - homepage.icon=paperless.png
+      - homepage.icon=paperless
       - homepage.href=https://paperless.${DOMAIN_NAME}
     networks:
       - paperless-backend

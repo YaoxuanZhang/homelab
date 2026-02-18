@@ -15,3 +15,4 @@ include:
   # - path: spokes/calcom/docker-compose.yml
   - path: spokes/nextcloud/docker-compose.yml
   - path: spokes/paperless/docker-compose.yml
+  - path: spokes/metube/docker-compose.yml
