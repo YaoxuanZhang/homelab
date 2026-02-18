@@ -56,3 +56,10 @@ endpoints:
     interval: 1m
     conditions:
       - "[STATUS] == 200"
+
+  - name: Homepage
+    group: services
+    url: "https://homepage.jianling.org"
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"

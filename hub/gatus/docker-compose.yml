@@ -14,9 +14,15 @@ services:
       - traefik.http.routers.gatus.tls=true
       - traefik.http.routers.gatus.tls.certresolver=cloudflare
       - traefik.http.routers.gatus.middlewares=authentik@docker
+      - homepage.group=Monitoring
+      - homepage.name=Gatus
+      - homepage.icon=gatus.png
+      - homepage.href=https://gatus.${DOMAIN_NAME}
     networks:
+      - gatus-backend
       - traefik-frontend
 
 networks:
+  gatus-backend:
   traefik-frontend:
     external: true

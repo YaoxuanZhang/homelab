@@ -1,0 +1,10 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Services:
+  - Gatus:
+      icon: gatus.png
+      widget:
+        type: gatus
+        url: http://gatus:8080

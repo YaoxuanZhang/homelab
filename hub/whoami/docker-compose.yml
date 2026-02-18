@@ -11,6 +11,10 @@ services:
       - traefik.http.routers.whoami.tls=true
       - traefik.http.routers.whoami.tls.certresolver=cloudflare
       - traefik.http.routers.whoami.middlewares=authentik@docker
+      - homepage.group=Infrastructure
+      - homepage.name=Whoami
+      - homepage.icon=whoami.png
+      - homepage.href=https://whoami.${DOMAIN_NAME}
     networks:
       - traefik-frontend
 networks:

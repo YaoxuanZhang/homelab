@@ -48,6 +48,10 @@ services:
       - traefik.http.routers.nextcloud.middlewares=authentik@docker
       - traefik.http.services.nextcloud.loadbalancer.server.port=8080
       - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
+      - homepage.group=Apps
+      - homepage.name=Nextcloud
+      - homepage.icon=nextcloud.png
+      - homepage.href=https://nextcloud.${DOMAIN_NAME}
 
 volumes:
   # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive

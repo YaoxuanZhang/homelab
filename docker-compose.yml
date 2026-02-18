@@ -6,6 +6,7 @@ include:
    - path: hub/authentik/docker-compose.yml
    - path: hub/cloudflared/docker-compose.yml
    - path: hub/gatus/docker-compose.yml
+   - path: hub/homepage/docker-compose.yml
    - path: hub/netdata/docker-compose.yml
    - path: hub/traefik/docker-compose.yml
    - path: hub/whoami/docker-compose.yml
