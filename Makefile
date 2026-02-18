@@ -3,7 +3,7 @@
 all: setup up
 
 up:
-	DOMAIN_NAME=$$(grep DOMAIN_NAME .env | cut -d '=' -f2) python3 hub/generate_endpoints.py
+	uv run scripts/generate_endpoints.py
 	docker compose up -d
 
 down:

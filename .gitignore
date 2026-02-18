@@ -4,3 +4,5 @@ data/
 hub/traefik/config/certs
 .DS_Store
 logs/
+.venv/
+__pycache__/
