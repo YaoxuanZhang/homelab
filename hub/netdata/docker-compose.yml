@@ -25,15 +25,15 @@ services:
       - /run/dbus:/run/dbus:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.netdata.rule: Host(`netdata.${DOMAIN_NAME}`)
+      traefik.http.routers.netdata.rule: Host(`system.${DOMAIN_NAME}`)
       traefik.http.routers.netdata.entrypoints: websecure
       traefik.http.routers.netdata.tls: true
       traefik.http.routers.netdata.tls.certresolver: cloudflare
       traefik.http.routers.netdata.middlewares: authentik@docker
-      homepage.group: Monitoring
+      homepage.group: Infrastructure
       homepage.name: Netdata
       homepage.icon: netdata
-      homepage.href: https://netdata.${DOMAIN_NAME}
+      homepage.href: https://system.${DOMAIN_NAME}
     networks:
       - traefik-frontend
 

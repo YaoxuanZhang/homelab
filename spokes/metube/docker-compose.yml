@@ -7,12 +7,18 @@ services:
       - ./data:/downloads
     labels:
       traefik.enable: true
-      traefik.http.routers.metube.rule: Host(`metube.${DOMAIN_NAME}`)
+      traefik.http.routers.metube.rule: Host(`ytdownload.${DOMAIN_NAME}`)
       traefik.http.routers.metube.entrypoints: websecure
       traefik.http.routers.metube.tls: true
       traefik.http.routers.metube.tls.certresolver: cloudflare
       traefik.http.routers.metube.middlewares: authentik@docker
       homepage.group: Apps
-      homepage.href: https://metube.${DOMAIN_NAME}
+      homepage.href: https://ytdownload.${DOMAIN_NAME}
       homepage.icon: metube
-      homepage.name: MeTube
+      homepage.name: Youtube Downloader
+    networks:
+      - traefik-frontend
+
+networks:
+  traefik-frontend:
+    external: true

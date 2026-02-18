@@ -11,7 +11,7 @@ services:
       - 443:443
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dash.rule: Host(`traefik.${DOMAIN_NAME}`)
+      traefik.http.routers.traefik-dash.rule: Host(`routing.${DOMAIN_NAME}`)
       traefik.http.routers.traefik-dash.service: api@internal
       traefik.http.routers.traefik-dash.entrypoints: websecure
       traefik.http.routers.traefik-dash.tls: true
@@ -20,7 +20,7 @@ services:
       homepage.group: Infrastructure
       homepage.name: Traefik
       homepage.icon: traefik
-      homepage.href: https://traefik.${DOMAIN_NAME}
+      homepage.href: https://routing.${DOMAIN_NAME}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro

@@ -2,7 +2,7 @@ version: 1
 entries:
   - model: authentik_providers_oauth2.oauth2provider
     identifiers:
-      name: Paperless-ngx Oauth Provider
+      name: Paperless
     attrs:
       client_id: !Env PAPERLESS_CLIENT_ID
       client_secret: !Env PAPERLESS_CLIENT_SECRET
@@ -14,12 +14,12 @@ entries:
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
       redirect_uris:
         - matching_mode: strict
-          url: !Format ["https://paperless.%s/accounts/oidc/authentik/login/callback/", [!Env DOMAIN_NAME]]
+          url: !Format ["https://scan.%s/accounts/oidc/authentik/login/callback/", !Env DOMAIN_NAME]
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, default-signing-key]]
 
   - model: authentik_core.application
     identifiers:
-      slug: paperless-ngx-oauth
+      slug: paperless
     attrs:
-      name: Paperless-ngx Oauth Application
-      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Paperless-ngx Oauth Provider]]
+      name: Paperless
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Paperless]]

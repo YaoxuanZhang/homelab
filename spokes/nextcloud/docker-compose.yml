@@ -41,7 +41,7 @@ services:
       - traefik-frontend
     labels:
       traefik.enable: true
-      traefik.http.routers.nextcloud.rule: Host(`nextcloudmaster.${DOMAIN_NAME}`)
+      traefik.http.routers.nextcloud.rule: Host(`nextcloud.${DOMAIN_NAME}`)
       traefik.http.routers.nextcloud.entrypoints: websecure
       traefik.http.routers.nextcloud.tls: true
       traefik.http.routers.nextcloud.tls.certresolver: cloudflare
@@ -51,7 +51,7 @@ services:
       homepage.group: Infrastructure
       homepage.name: Nextcloud
       homepage.icon: nextcloud
-      homepage.href: https://nextcloudmaster.${DOMAIN_NAME}
+      homepage.href: https://nextcloud.${DOMAIN_NAME}
 
 volumes:
   # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive

@@ -39,7 +39,7 @@ services:
       AUTHENTIK_EMAIL__USE_SSL: ${AUTHENTIK_EMAIL__USE_SSL}
       AUTHENTIK_EMAIL__TIMEOUT: ${AUTHENTIK_EMAIL__TIMEOUT}
       AUTHENTIK_EMAIL__FROM: ${AUTHENTIK_EMAIL__FROM}
-      AUTHENTIK_HOST: https://authentik.${DOMAIN_NAME}
+      AUTHENTIK_HOST: https://auth.${DOMAIN_NAME}
       AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL}
       AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD}
     image: ghcr.io/goauthentik/server:2025.12.4
@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: true
-      traefik.http.routers.authentik.rule: Host(`authentik.${DOMAIN_NAME}`)
+      traefik.http.routers.authentik.rule: Host(`auth.${DOMAIN_NAME}`)
       traefik.http.routers.authentik.entrypoints: websecure
       traefik.http.routers.authentik.tls: true
       traefik.http.routers.authentik.tls.certresolver: cloudflare
@@ -60,7 +60,7 @@ services:
       homepage.group: Infrastructure
       homepage.name: Authentik
       homepage.icon: authentik
-      homepage.href: https://authentik.${DOMAIN_NAME}
+      homepage.href: https://auth.${DOMAIN_NAME}
     volumes:
       - authentik-data:/data
       - authentik-certs:/certs
@@ -89,7 +89,7 @@ services:
       AUTHENTIK_EMAIL__USE_SSL: ${AUTHENTIK_EMAIL__USE_SSL}
       AUTHENTIK_EMAIL__TIMEOUT: ${AUTHENTIK_EMAIL__TIMEOUT}
       AUTHENTIK_EMAIL__FROM: ${AUTHENTIK_EMAIL__FROM}
-      AUTHENTIK_HOST: https://authentik.${DOMAIN_NAME}
+      AUTHENTIK_HOST: https://auth.${DOMAIN_NAME}
       AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL}
       AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD}
       DOMAIN_NAME: ${DOMAIN_NAME}

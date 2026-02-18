@@ -12,13 +12,13 @@ services:
       DISABLE_ADDITIONAL_FEATURES: false
     labels:
       traefik.enable: true
-      traefik.http.routers.stirlingpdf.rule: Host(`stirling.${DOMAIN_NAME}`)
+      traefik.http.routers.stirlingpdf.rule: Host(`pdf.${DOMAIN_NAME}`)
       traefik.http.routers.stirlingpdf.entrypoints: websecure
       traefik.http.routers.stirlingpdf.tls: true
       traefik.http.routers.stirlingpdf.tls.certresolver: cloudflare
       traefik.http.routers.stirlingpdf.middlewares: authentik@docker
       homepage.group: Apps
-      homepage.href: https://stirling.${DOMAIN_NAME}
+      homepage.href: https://pdf.${DOMAIN_NAME}
       homepage.icon: stirling-pdf
       homepage.name: Stirling PDF
     # Configure healthcheck to verify container is running correctly

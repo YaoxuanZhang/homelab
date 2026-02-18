@@ -44,8 +44,8 @@ services:
       PAPERLESS_DBPASS: ${POSTGRES_PASSWORD}
       PAPERLESS_OCR_LANGUAGE: eng
       PAPERLESS_TIME_ZONE: America/New_York
-      PAPERLESS_CSRF_TRUSTED_ORIGINS: https://paperless.${DOMAIN_NAME}
-      PAPERLESS_URL: https://paperless.${DOMAIN_NAME}
+      PAPERLESS_CSRF_TRUSTED_ORIGINS: https://scan.${DOMAIN_NAME}
+      PAPERLESS_URL: https://scan.${DOMAIN_NAME}
       PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
       PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
       PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
@@ -62,7 +62,7 @@ services:
                 "client_id": "${PAPERLESS_CLIENT_ID}",
                 "secret": "${PAPERLESS_CLIENT_SECRET}",
                 "settings": {
-                  "server_url": "https://authentik.${DOMAIN_NAME}/application/o/paperless/.well-known/openid-configuration"
+                  "server_url": "https://auth.${DOMAIN_NAME}/application/o/paperless/.well-known/openid-configuration"
                 }
               }
             ],
@@ -71,21 +71,21 @@ services:
         }
       PAPERLESS_SOCIAL_AUTO_SIGNUP: True
       PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: True
-      PAPERLESS_LOGOUT_REDIRECT_URL: "https://authentik.${DOMAIN_NAME}/application/o/paperless/end-session/"
+      PAPERLESS_LOGOUT_REDIRECT_URL: "https://auth.${DOMAIN_NAME}/application/o/paperless/end-session/"
       PAPERLESS_DISABLE_REGULAR_LOGIN: True
       PAPERLESS_REDIRECT_LOGIN_TO_SSO: True
       PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: True
     labels:
       traefik.enable: true
-      traefik.http.routers.paperless.rule: Host(`paperless.${DOMAIN_NAME}`)
+      traefik.http.routers.paperless.rule: Host(`scan.${DOMAIN_NAME}`)
       traefik.http.routers.paperless.entrypoints: websecure
       traefik.http.routers.paperless.tls: true
       traefik.http.routers.paperless.tls.certresolver: cloudflare
       traefik.http.routers.paperless.middlewares: authentik@docker
       homepage.group: Apps
-      homepage.name: Paperless
+      homepage.name: Paperless Scanner
       homepage.icon: paperless
-      homepage.href: https://paperless.${DOMAIN_NAME}
+      homepage.href: https://scan.${DOMAIN_NAME}
     networks:
       - paperless-backend
       - traefik-frontend
