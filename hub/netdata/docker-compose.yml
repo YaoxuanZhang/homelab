@@ -30,7 +30,7 @@ services:
       - traefik.http.routers.netdata.tls=true
       - traefik.http.routers.netdata.tls.certresolver=cloudflare
       - traefik.http.routers.netdata.middlewares=authentik@docker
-      - homepage.group=Monitoring
+      - homepage.group=Infrastructure
       - homepage.name=Netdata
       - homepage.icon=netdata
       - homepage.href=https://netdata.${DOMAIN_NAME}
@@ -41,6 +41,7 @@ volumes:
   netdata-config:
   netdata-lib:
   netdata-cache:
+
 
 networks:
   traefik-frontend:
