@@ -4,15 +4,16 @@ services:
     container_name: metube
     restart: unless-stopped
     volumes:
-      - ./data:/downloads
+      - metube-downloads:/downloads
     labels:
       - traefik.enable=true
       - traefik.http.routers.metube.rule=Host(`metube.${DOMAIN_NAME}`)
       - traefik.http.routers.metube.entrypoints=websecure
       - traefik.http.routers.metube.tls=true
       - traefik.http.routers.metube.tls.certresolver=cloudflare
-      - traefik.http.services.metube.loadbalancer.server.port=8081
       - homepage.group=Apps
       - homepage.href=https://metube.${DOMAIN_NAME}
       - homepage.icon=metube
       - homepage.name=MeTube
+volumes:
+  metube-downloads:

@@ -2,17 +2,16 @@
 name: homelab-infrastructure
 
 include:
-  # Hub Services (Core)
-  - path: hub/authentik/docker-compose.yml
-  - path: hub/cloudflared/docker-compose.yml
+  - path: core/authentik/docker-compose.yml
+  - path: core/cloudflared/docker-compose.yml
+  - path: core/traefik/docker-compose.yml
   - path: hub/gatus/docker-compose.yml
   - path: hub/homepage/docker-compose.yml
   - path: hub/netdata/docker-compose.yml
-  - path: hub/traefik/docker-compose.yml
   - path: hub/whoami/docker-compose.yml
-  # Spoke Services (Applications)
   - path: spokes/stirlingpdf/docker-compose.yml
-  # - path: spokes/calcom/docker-compose.yml
   - path: spokes/nextcloud/docker-compose.yml
   - path: spokes/paperless/docker-compose.yml
   - path: spokes/metube/docker-compose.yml
+  - path: spokes/shlink/docker-compose.yml
+  - path: spokes/calcom/docker-compose.yml

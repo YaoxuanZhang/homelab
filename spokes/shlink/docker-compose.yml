@@ -1,0 +1,75 @@
+services:
+  shlink-db:
+    image: postgres:16-alpine
+    container_name: shlink-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=shlink
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=shlink
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d shlink -U shlink" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    networks:
+      - shlink-backend
+
+  shlink:
+    image: shlinkio/shlink:latest
+    container_name: shlink
+    restart: unless-stopped
+    depends_on:
+      shlink-db:
+        condition: service_healthy
+    environment:
+      - DB_DRIVER=postgres
+      - DB_HOST=shlink-db
+      - DB_NAME=shlink
+      - DB_USER=shlink
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DEFAULT_DOMAIN=s.${DOMAIN_NAME}
+      - IS_HTTPS=true
+      - GEOLITE2_LICENSE_KEY=${SHLINK_GEOLITE2_LICENSE_KEY}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shlink.rule=Host(`s.${DOMAIN_NAME}`)
+      - traefik.http.routers.shlink.entrypoints=websecure
+      - traefik.http.routers.shlink.tls=true
+      - traefik.http.routers.shlink.tls.certresolver=cloudflare
+      - traefik.docker.network=traefik-frontend
+    networks:
+      - shlink-backend
+      - traefik-frontend
+
+  shlink-web-client:
+    image: shlinkio/shlink-web-client:latest
+    container_name: shlink-web-client
+    restart: unless-stopped
+    environment:
+      - SHLINK_SERVER_URL=https://s.${DOMAIN_NAME}
+      - SHLINK_SERVER_API_KEY=${SHLINK_API_KEY}
+      - SHLINK_SERVER_NAME=Homelab
+    labels:
+
+      - traefik.enable=true
+      - traefik.http.routers.shlink-web-client.rule=Host(`shlink.${DOMAIN_NAME}`)
+      - traefik.http.routers.shlink-web-client.entrypoints=websecure
+      - traefik.http.routers.shlink-web-client.tls=true
+      - traefik.http.routers.shlink-web-client.tls.certresolver=cloudflare
+      - traefik.http.routers.shlink-web-client.middlewares=authentik@docker
+      - traefik.docker.network=traefik-frontend
+      - homepage.group=Apps
+      - homepage.name=Shlink
+      - homepage.icon=shlink
+      - homepage.href=https://shlink.${DOMAIN_NAME}
+    networks:
+      - traefik-frontend
+
+networks:
+  shlink-backend:
+    internal: true
+  traefik-frontend:
+    external: true

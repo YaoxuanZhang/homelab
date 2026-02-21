@@ -1,0 +1,66 @@
+services:
+  calcom-db:
+    image: postgres:16-alpine
+    container_name: calcom-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=calcom
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=calcom
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    networks:
+      - calcom-internal
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d calcom -U calcom" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  calcom-redis:
+    image: redis:7-alpine
+    container_name: calcom-redis
+    restart: unless-stopped
+    volumes:
+      - ./data/redisdata:/data
+    networks:
+      - calcom-internal
+
+  calcom:
+    image: calcom.docker.scarf.sh/calcom/cal.com:latest
+    container_name: calcom
+    restart: unless-stopped
+    depends_on:
+      calcom-db:
+        condition: service_healthy
+      calcom-redis:
+        condition: service_started
+    environment:
+      - DATABASE_URL=postgresql://calcom:${POSTGRES_PASSWORD}@calcom-db:5432/calcom
+      - DATABASE_DIRECT_URL=postgresql://calcom:${POSTGRES_PASSWORD}@calcom-db:5432/calcom
+      - NEXT_PUBLIC_WEBAPP_URL=https://cal.${DOMAIN_NAME}
+      - NEXTAUTH_URL=https://cal.${DOMAIN_NAME}/api/auth
+      - NEXTAUTH_SECRET=${CALCOM_NEXTAUTH_SECRET}
+      - CALENDSO_ENCRYPTION_KEY=${CALCOM_ENCRYPTION_KEY}
+      - REDIS_URL=redis://calcom-redis:6379
+      - NODE_ENV=production
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.calcom.rule=Host(`cal.${DOMAIN_NAME}`)
+      - traefik.http.routers.calcom.entrypoints=websecure
+      - traefik.http.routers.calcom.tls=true
+      - traefik.http.routers.calcom.tls.certresolver=cloudflare
+      - traefik.docker.network=traefik-frontend
+      - homepage.group=Apps
+      - homepage.name=Cal.com
+      - homepage.icon=cal-com
+      - homepage.href=https://cal.${DOMAIN_NAME}
+    networks:
+      - calcom-internal
+      - traefik-frontend
+
+networks:
+  calcom-internal:
+    internal: true
+  traefik-frontend:
+    external: true
