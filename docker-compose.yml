@@ -14,4 +14,3 @@ include:
   - path: spokes/paperless/docker-compose.yml
   - path: spokes/metube/docker-compose.yml
   - path: spokes/shlink/docker-compose.yml
-  - path: spokes/calcom/docker-compose.yml
