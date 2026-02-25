@@ -1,5 +1,5 @@
 # homelab/docker-compose.yml
-name: homelab-infrastructure
+name: homelab
 
 include:
   - path: core/authentik/docker-compose.yml
